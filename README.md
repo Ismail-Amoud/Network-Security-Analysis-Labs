@@ -1,29 +1,20 @@
 # Network Security Analysis Labs
 
-Hands-on, personally operated network analysis and defensive cybersecurity laboratories.
+**Ismail Amoud** · Hands-on network traffic analysis and defensive networking projects developed in a personal Proxmox VE environment.
 
-**Author:** Ismail Amoud | **Environment:** Personal Proxmox VE home lab | **Languages:** English / Français
-
-## Documented lab
+## Projects
 
 | Lab | Focus | Status | Documentation |
 |---|---|---|---|
-| 01 | ICMP Packet Analysis & Network Encapsulation | Completed — network analysis documented | [English](01-ICMP-Packet-Analysis/README.md) · [Français](01-ICMP-Packet-Analysis/README-FR.md) |
+| **01** | **ICMP Packet Analysis & Network Encapsulation** — Wireshark, IPv4, ARP, TTL and traceroute | **Completed** | [English](01-ICMP-Packet-Analysis/README.md) · [Français](01-ICMP-Packet-Analysis/README-FR.md) |
 
-## Lab 01 — Confirmed observations
+## LAB 01 — Highlights
 
-- Windows 11 sent four ICMP Echo Requests to an Ubuntu VM; four Echo Replies were captured, with 0% reported loss.
-- Wireshark displayed Ethernet II / IPv4 / ICMP encapsulation and corresponding request/reply fields.
-- ARP requests and replies were observed; the destination's IPv4-to-MAC mapping was present in the Windows ARP cache.
-- Windows `tracert` reached the Ubuntu destination on its first displayed hop.
-- The IPv4 header checksum field was inspected, **but its correctness was not validated**.
-- Complete network isolation was **not established**: the Windows VM had Internet connectivity.
+- Captured **four ICMP Echo Requests and four Echo Replies** between Windows 11 and Ubuntu; Windows reported **0% packet loss**.
+- Examined Ethernet II, IPv4 and ICMP fields in Wireshark, including a **74-byte captured frame**.
+- Observed ARP request/reply traffic and a matching dynamic ARP entry.
+- Used Windows traceroute to confirm that the Ubuntu VM appeared at the first displayed hop.
 
-See the individual lab documentation for detailed methodology, limitations and planned evidence review.
+**Explore:** [Technical report (EN)](01-ICMP-Packet-Analysis/report-en.md) · [Rapport technique (FR)](01-ICMP-Packet-Analysis/rapport-fr.md) · [Recorded observations](01-ICMP-Packet-Analysis/evidence/observations-en.md)
 
-## Publication and privacy
-
-- All work is from a **personal lab**, not paid production SOC experience.
-- Raw PCAP files, internal identifiers, MAC addresses, public IPs, hostnames, infrastructure configuration and other sensitive details must be reviewed before publishing.
-- No screenshots or raw packet captures are published here until they have been redacted and checked.
-- All recorded results are separated from expected results and interpretations.
+All results are from a personal lab. The evidence folder contains field transcriptions based on actual captures; it does not represent raw packet capture files.
