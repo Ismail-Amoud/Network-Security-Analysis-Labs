@@ -1,6 +1,6 @@
 # LAB 01 — ICMP Packet Analysis & Network Encapsulation
 
-**Status:** Network tests executed; reporting completed; publication of redacted evidence pending.  
+**Status:** Completed — ICMP, ARP and traceroute analysis performed and documented.  
 **Type:** Personal Proxmox VE home lab, not a production network.  
 **Technical report:** [English](report-en.md) · [Français](rapport-fr.md)
 
