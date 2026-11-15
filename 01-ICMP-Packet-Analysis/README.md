@@ -61,3 +61,10 @@ Wireshark display filters: `icmp`, `arp`.
 The lab successfully demonstrated ICMP connectivity, IPv4 encapsulation, Ethernet address resolution and traceroute analysis in a virtual network. Packet findings are supported by recorded PowerShell output and Wireshark observations.
 
 **Technical scope:** IPv4 header checksum correctness was not validated, and TTL decrement across a router was not tested. Request and reply detail examples drawn from separate capture sessions are labeled accordingly.
+
+## Plain-text evidence
+
+- [Sanitized text transcript (English)](evidence/icmp-analysis.txt)
+- [Transcription anonymisée (français)](evidence/analyse-icmp.txt)
+
+These are manually transcribed observed values, **not raw logs**. No screenshots or PCAP files are included.
