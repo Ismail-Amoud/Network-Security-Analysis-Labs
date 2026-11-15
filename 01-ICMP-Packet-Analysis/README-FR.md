@@ -1,6 +1,6 @@
 # LAB 01 — Analyse ICMP et encapsulation réseau
 
-**Statut :** tests réseau réalisés ; rapport rédigé ; publication des preuves anonymisées en attente.  
+**Statut :** Terminé — Analyse ICMP, ARP et traceroute réalisée et documentée.  
 **Cadre :** laboratoire personnel Proxmox VE, et non réseau de production.  
 **Rapports techniques :** [Français](rapport-fr.md) · [English](report-en.md)
 
