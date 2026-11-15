@@ -61,3 +61,10 @@ Filtres d'affichage Wireshark : `icmp` et `arp`.
 Ce laboratoire a permis de démontrer la connectivité ICMP, l'encapsulation IPv4, la résolution des adresses Ethernet et l'analyse de traceroute sur un réseau virtuel. Les résultats reposent sur les sorties PowerShell et les observations Wireshark recueillies pendant les manipulations.
 
 **Périmètre technique :** la validité du checksum IPv4 n'a pas été vérifiée et aucune décrémentation du TTL par un routeur n'a été testée. Les exemples détaillés provenant de captures différentes sont identifiés comme tels.
+
+## Preuves en texte brut
+
+- [Transcription anonymisée (français)](evidence/analyse-icmp.txt)
+- [Sanitized text transcript (English)](evidence/icmp-analysis.txt)
+
+Ces fichiers reprennent manuellement des valeurs observées : ce ne sont **pas des journaux bruts**. Aucune capture d’écran ni aucun PCAP n’est publié.
