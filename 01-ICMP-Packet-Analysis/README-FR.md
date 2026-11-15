@@ -71,3 +71,11 @@ Filtres Wireshark : `icmp` et `arp`. Les adresses réelles sont remplacées dans
 ## Présentation orale
 
 « Dans mon laboratoire Proxmox, j'ai capturé des échanges ICMP entre Windows 11 et Ubuntu. J'ai analysé l'encapsulation Ethernet/IPv4/ICMP, observé la résolution ARP et étudié le TTL et les champs de checksum. Quatre réponses ont été reçues sans perte. Traceroute a atteint directement la destination. J'ai également documenté les limites de la démonstration, notamment la validation non effectuée du checksum IPv4 et l'isolation réseau non confirmée. »
+
+
+## Packet evidence / Preuves de paquets
+
+- [Observed packet values — English](evidence/observations-en.md)
+- [Valeurs des paquets observés — Français](evidence/observations-fr.md)
+
+Original screenshots are reviewed separately before publication; the linked text is a transcription of actual observed fields, not a raw PCAP.
