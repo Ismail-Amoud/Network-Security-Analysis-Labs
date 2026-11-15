@@ -1,99 +1,89 @@
-# Preuves observées — LAB 01
+# LAB 01 — Relevés des observations réseau
 
-Ce dossier documente les **données réellement visibles** dans les captures de Windows PowerShell et Wireshark. Les identifiants du réseau ont été remplacés par des rôles : `WIN11_LAB` et `UBUNTU_LAB`.
+**Source :** valeurs relevées dans les véritables captures Windows PowerShell et Wireshark réalisées pendant le laboratoire.  
+**Format :** transcription technique ; ni PCAP brut, ni journal exporté, ni capture d'écran.
 
-> Les transcriptions suivantes ne sont pas des journaux bruts exportés, ni des captures originales. Elles reprennent les champs relevés sur les captures du laboratoire. Les images anonymisées seront ajoutées après validation finale de leur publication.
+Les adresses d'infrastructure, MAC et identifiants d'interface ont été omis lorsque leur valeur exacte n'était pas nécessaire.
 
-## 1. Ping et ICMP
+## Ping Windows
 
-Commande Windows : `ping -4 -n 4 <UBUNTU_LAB_IP>`.
+Commande : `ping -4 -n 4 <IP_UBUNTU>`
 
-- Envoyés : **4**
-- Reçus : **4**
-- Perdus : **0 (0 %)**
-- RTT minimal : **0 ms** affiché
-- RTT maximal : **8 ms**
-- RTT moyen : **2 ms**
-- Wireshark : **4 Echo Requests + 4 Echo Replies**
-- Longueur de trame affichée : **74 octets**
-- TTL des demandes observées : **128**
-- TTL des réponses observées : **64**
+| Indicateur | Valeur observée |
+|---|---|
+| Paquets envoyés | 4 |
+| Paquets reçus | 4 |
+| Perte | 0 (0 %) |
+| RTT minimum | 0 ms (affichage arrondi) |
+| RTT maximum | 8 ms |
+| RTT moyen | 2 ms |
+| Messages ICMP dans Wireshark | 4 demandes, 4 réponses |
 
-## 2. Trame ICMP Echo Request
-
-Extrait des champs du paquet examiné :
+## Wireshark : Echo Request examiné
 
 ```text
-Ethernet II
-Internet Protocol Version 4:
-    Version: 4
-    Header Length: 20 bytes
-    Total Length: 60
-    Time to Live: 128
-    Protocol: ICMP (1)
-    Header checksum status: Unverified
-ICMP:
-    Type: Echo (ping) request (8)
-    Code: 0
-    Checksum Status: Good
-    Identifier (BE): 1
-    Sequence Number (BE): 1
-    Data: 32 bytes
 Frame Length: 74 bytes
+Ethernet II / IPv4 / ICMP
+IPv4 Version: 4
+IPv4 Header Length: 20 bytes
+IPv4 Total Length: 60 bytes
+IPv4 Protocol: ICMP (1)
+IPv4 TTL: 128
+IPv4 Header Checksum: 0x0000 [validation disabled]
+IPv4 Header Checksum Status: Unverified
+ICMP Type: 8 (Echo Request)
+ICMP Code: 0
+ICMP Checksum: 0x4d5a [correct]
+ICMP Checksum Status: Good
+ICMP Identifier (BE): 1
+ICMP Sequence Number (BE): 1
+ICMP Data: 32 bytes
 ```
 
-Ces valeurs sont issues d'une demande spécifique ; elles ne doivent pas être artificiellement appariées à une réponse provenant d'une autre session.
+**Numéro de trame dans cette capture :** 15857. Wireshark indiquait la trame 15858 comme sa réponse, au sein de cette même capture.
 
-## 3. Echo Reply examiné
+## Wireshark : Echo Reply examiné séparément
 
 ```text
-Internet Protocol Version 4:
-    Header Length: 20 bytes
-    Total Length: 60
-    Time to Live: 64
-    Protocol: ICMP (1)
-    Header Checksum: 0x3a64 [validation disabled]
-    Header checksum status: Unverified
-ICMP:
-    Type: Echo (ping) reply (0)
-    Code: 0
-    Checksum: 0x555a [correct]
-    Checksum Status: Good
-    Identifier (BE): 1
-    Sequence Number (BE): 1
-    Request frame: 144
-    Response time: 17.916 ms
-    Data: 32 bytes
+IPv4 Header Length: 20 bytes
+IPv4 Total Length: 60 bytes
+IPv4 Protocol: ICMP (1)
+IPv4 TTL: 64
+IPv4 Header Checksum: 0x3a64 [validation disabled]
+IPv4 Header Checksum Status: Unverified
+ICMP Type: 0 (Echo Reply)
+ICMP Code: 0
+ICMP Checksum: 0x555a [correct]
+ICMP Checksum Status: Good
+ICMP Identifier (BE): 1
+ICMP Sequence Number (BE): 1
+ICMP Request Frame: 144
+ICMP Response Time: 17.916 ms
+ICMP Data: 32 bytes
 ```
 
-Cet exemple provient d'une capture distincte de celle de la demande détaillée.
+**Important :** cette réponse provient d'une autre capture. Sa demande correspondante était la trame 144 **dans cette autre capture**, et non la trame 15857 de la première. Les deux relevés servent à comparer les champs, pas à présenter un échange unique apparié.
 
-## 4. ARP
+Un checksum IPv4 affiché à `0x0000` sur un paquet sortant peut résulter du mécanisme de capture ou du déchargement du calcul ; sa validité n'a pas été vérifiée.
 
-- Des messages **Who has <UBUNTU_LAB_IP>? Tell <WIN11_LAB_IP>** ont été observés.
-- Les réponses associent l'adresse IPv4 d'Ubuntu à l'adresse MAC de son interface virtuelle.
-- `arp -a` indiquait une correspondance dynamique entre l'IPv4 d'Ubuntu et une adresse MAC.
-- Le filtre Wireshark utilisé était `arp`.
+## ARP
 
-## 5. Traceroute
+- Windows a recherché la MAC correspondant à l'adresse IPv4 privée de la VM Ubuntu.
+- Wireshark a capturé des requêtes et réponses ARP.
+- `arp -a` affichait une entrée dynamique IPv4–MAC pour la destination.
+
+## Traceroute
 
 ```text
-Tracing route to <UBUNTU_LAB_IP> over a maximum of 30 hops
+Tracing route to <IP_UBUNTU> over a maximum of 30 hops
 
-1    <1 ms    <1 ms    <1 ms    <UBUNTU_LAB_IP>
+1    <1 ms    <1 ms    <1 ms    <IP_UBUNTU>
 
 Trace complete.
 ```
 
-**Interprétation :** la destination était joignable directement sur le même réseau virtuel, sans routeur intermédiaire observé.
+La destination apparaît dès le premier saut affiché ; aucun routeur intermédiaire n'a été observé.
 
-## 6. Limites vérifiées
+## Précision sur le périmètre
 
-- Le checksum ICMP examiné était correct ; **le checksum de l'en-tête IPv4 n'a pas été validé**.
-- L'accès Internet était possible depuis Windows ; **l'isolation complète du réseau n'a pas été établie**.
-- Aucun test de routage à plusieurs sauts n'a été effectué.
-- Aucune attaque, compromission ou activité de production n'a été simulée ou constatée.
-
-## Statut des images
-
-Les six captures préparées nécessitent une dernière inspection visuelle après masquage des adresses et autres identifiants avant toute mise en ligne. Ne pas publier les captures brutes.
+Ces relevés décrivent les observations réseau effectuées. L'isolation complète n'a pas été établie et aucune route à plusieurs sauts n'a été capturée. L'interprétation est détaillée dans le rapport.
