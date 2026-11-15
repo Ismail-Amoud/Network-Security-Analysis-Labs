@@ -1,0 +1,99 @@
+LAB 01 — Analyse ICMP et encapsulation réseau
+Résultats observés | Transcription textuelle anonymisée
+=======================================================
+Ce fichier est une transcription manuelle de valeurs visibles dans les
+captures de laboratoire. Ce n'est NI une capture brute de paquets, NI une
+sortie de commande intacte, NI un journal exporté.
+Les IP/MAC réelles, GUID d'interface, noms de machines et IP publiques
+sont omis. Les marqueurs correspondent à des rôles, pas à des valeurs réelles.
+
+ENVIRONNEMENT
+-------------
+Source : VM Windows 11
+Destination : VM Ubuntu
+Virtualisation : Proxmox VE, bridge Ethernet virtuel partagé
+Réseau : même sous-réseau IPv4 privé /24
+Capture : Wireshark 4.6.9 et Npcap
+
+PING WINDOWS
+------------
+Commande exécutée (adresse remplacée) :
+  ping -4 -n 4 <IP_UBUNTU>
+
+Paquets : envoyés=4, reçus=4, perdus=0 (0 %)
+Temps aller-retour (affichage Windows) : min=0ms, max=8ms, moyenne=2ms
+
+TRAFIC ICMP DANS WIRESHARK
+--------------------------
+Observation : 4 demandes Echo Request et 4 réponses Echo Reply.
+Exemple de demande examinée (première session de capture) :
+  Longueur de la trame :       74 octets
+  En-tête Ethernet II :       14 octets
+  En-tête IPv4 :              20 octets
+  Longueur IPv4 totale :      60 octets
+  Protocole IPv4 :            1 (ICMP)
+  TTL IPv4 :                  128
+  Checksum IPv4 :             0x0000 (validation désactivée ; non vérifié)
+  Type/Code ICMP :            8 / 0 (Echo Request)
+  Checksum ICMP :             0x4d5a (Good)
+  Identifiant ICMP (BE) :     1
+  Numéro de séquence (BE) :   1
+  Données ICMP :              32 octets
+  Trame dans cette capture :  15857
+  Réponse associée dans cette capture : trame 15858
+
+Exemple de réponse examinée (autre session de capture) :
+  En-tête IPv4 :              20 octets
+  Longueur IPv4 totale :      60 octets
+  Protocole IPv4 :            1 (ICMP)
+  TTL IPv4 :                  64
+  Checksum IPv4 :             0x3a64 (validation désactivée ; non vérifié)
+  Type/Code ICMP :            0 / 0 (Echo Reply)
+  Checksum ICMP :             0x555a (Good)
+  Identifiant ICMP (BE) :     1
+  Numéro de séquence (BE) :   1
+  Requête associée dans cette session : trame 144
+  Temps de réponse Wireshark : 17,916 ms
+  Données ICMP :              32 octets
+
+Les deux exemples détaillés ci-dessus proviennent de DEUX sessions
+différentes. Ils ne sont PAS présentés comme une paire demande/réponse.
+Le temps de 17,916 ms ne provient pas de la série initiale du ping.
+
+ARP
+---
+Commande exécutée :
+  arp -a
+
+Cache Windows : association dynamique IPv4–MAC de la VM Ubuntu.
+Wireshark (filtre : arp) :
+  Requête ARP pour connaître la MAC de l'IPv4 de la VM Ubuntu.
+  Réponse ARP associant cette IPv4 à la MAC de l'interface Ubuntu.
+Les valeurs IPv4/MAC réelles sont volontairement omises.
+
+TRACEROUTE
+----------
+Commande exécutée (adresse remplacée) :
+  tracert -4 -d <IP_UBUNTU>
+
+Sortie anonymisée (destination remplacée) :
+  Tracing route to <IP_UBUNTU> over a maximum of 30 hops
+
+  1    <1 ms    <1 ms    <1 ms    <IP_UBUNTU>
+
+  Trace complete.
+
+Interprétation : la destination apparaît au premier saut affiché, ce
+qui concorde avec la communication directe sur le réseau virtuel partagé.
+
+PÉRIMÈTRE
+---------
+* La connectivité locale, l'analyse de paquets ICMP, ARP et traceroute
+  ont été observées et documentées.
+* Les sommes de contrôle ICMP examinées sont indiquées « Good ».
+* La validation du checksum IPv4 était désactivée.
+* La diminution du TTL sur plusieurs routeurs n'a pas été capturée.
+* Windows avait accès à Internet ; l'isolation complète du réseau
+  n'a pas été démontrée.
+
+FIN DE LA TRANSCRIPTION ANONYMISÉE
