@@ -74,3 +74,11 @@ Wireshark display filters: `icmp` and `arp`.
 
 “I captured ICMP Echo Requests and Echo Replies between Windows and Ubuntu in my Proxmox lab. I identified Ethernet, IPv4 and ICMP fields, confirmed ARP resolution and examined TTL and checksum fields. Windows reported four replies and no loss. The destination appeared directly in traceroute. I also documented the limits of the test, including unchecked IPv4 header checksum validation and unverified full network isolation.”
 
+
+
+## Packet evidence / Preuves de paquets
+
+- [Observed packet values — English](evidence/observations-en.md)
+- [Valeurs des paquets observés — Français](evidence/observations-fr.md)
+
+Original screenshots are reviewed separately before publication; the linked text is a transcription of actual observed fields, not a raw PCAP.
