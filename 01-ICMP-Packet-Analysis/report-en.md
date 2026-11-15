@@ -2,13 +2,13 @@
 
 **Author:** Ismail Amoud  
 **Scope:** Controlled personal home-lab network diagnostics  
-**Evidence:** User-observed PowerShell and Wireshark screenshots (public redaction pending)
+**Analysis sources:** PowerShell results and Wireshark captures collected in the lab
 
 ## Executive summary
 
 A Windows 11 VM and an Ubuntu VM were configured on the same Proxmox virtual bridge and /24 IPv4 subnet. A four-request ping generated four observed Echo Requests and four Echo Replies, with no loss reported by the Windows command. Wireshark confirmed the expected Ethernet/IPv4/ICMP structure. The Windows ARP table and packet capture demonstrated IPv4-to-MAC resolution, while traceroute reached Ubuntu directly at its first displayed hop.
 
-## Research questions
+## Analysis objectives
 
 1. How is ICMPv4 encapsulated within an Ethernet frame?
 2. How do an Echo Request and Echo Reply differ?
@@ -50,18 +50,18 @@ Captured requests asked which node held the target private IPv4 address, and ARP
 
 Windows `tracert -4 -d` displayed the target on its first line with **three RTTs below 1 ms**. There was no intermediate IPv4 router visible, consistent with both VMs sharing one virtual broadcast domain. “Maximum 30 hops” was a search limit, not an observed path length.
 
-## Interpretation
+## Results and interpretation
 
-The results demonstrate baseline local-network connectivity, L2/L3 encapsulation, ICMP echo exchanges, ARP resolution and a direct traceroute result. They **do not** prove network isolation, an actual multi-router TTL decrement, an IPv4 checksum validation, or an intrusion.
+The results confirm connectivity between the two virtual machines and demonstrate ICMP over IPv4 in the lab environment. Wireshark analysis identified Ethernet, IPv4 and ICMP headers, compared echo request and reply fields, and showed ARP resolution. Traceroute reached the Ubuntu VM directly on the shared virtual network.
 
-## Evidence checklist before public release
-
-- [ ] Redact interface GUIDs, VM/nodes names, full MAC addresses and sensitive infrastructure details.
-- [ ] Crop screenshots to the relevant fields, retaining packet values and provenance.
-- [ ] Verify no public IPs, internal credentials or sensitive host identifiers.
-- [ ] Label individual captures by test session and avoid combining unmatched request/reply frames.
-- [ ] Publish the reviewed artifacts with captions and document any removal.
+Wireshark validated the ICMP checksum for the inspected messages. The IPv4 header checksum field was examined, but checksum validation was not enabled in the capture.
 
 ## Conclusion
 
-The ICMP and ARP tests and local traceroute were performed successfully. The work is appropriate to describe as a **completed network analysis experiment**, with redacted public evidence and checksum/routing extensions still pending. It is not a production security incident.
+This lab examined network communication between Windows 11 and Ubuntu virtual machines hosted on Proxmox VE.
+
+Using Wireshark, the experiment captured ICMP Echo Requests and Echo Replies, analyzed Ethernet/IPv4/ICMP encapsulation, inspected TTL and checksum fields, and observed ARP operation.
+
+Connectivity testing confirmed four ICMP replies with zero packet loss. Traceroute also confirmed direct communication between the two hosts on their shared virtual network.
+
+The completed work demonstrates practical skills in packet analysis, network protocol fundamentals, and connectivity troubleshooting using Wireshark and Windows networking tools.
