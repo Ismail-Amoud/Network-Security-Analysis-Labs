@@ -60,14 +60,9 @@ Ils ne démontrent pas :
 - une validation de la somme de contrôle IPv4 ;
 - une activité malveillante ou un incident de sécurité.
 
-## Preuves à examiner avant publication
+### Conclusion
 
-- [ ] Masquer les GUID d'interface, noms des VM/nœuds, MAC complètes et données d'infrastructure sensibles.
-- [ ] Conserver les champs techniques nécessaires et le contexte de chaque capture.
-- [ ] Vérifier l'absence de secrets, d'IP publiques ou d'identifiants internes sensibles.
-- [ ] Ne pas présenter des trames issues de captures différentes comme une demande/réponse appariée.
-- [ ] Publier les éléments anonymisés avec légendes et limites.
-
-## Conclusion
-
-Les tests ICMP, ARP et traceroute ont été réalisés avec succès. Il s'agit d'un **laboratoire d'analyse réseau terminé sur le plan des manipulations**, dont les preuves publiques anonymisées et certaines extensions restent à finaliser. Ce travail ne correspond pas à une investigation d'incident en production.
+Ce laboratoire a permis d'analyser les communications réseau entre deux machines virtuelles Windows 11 et Ubuntu au sein d'un environnement Proxmox VE.
+À l'aide de Wireshark, nous avons capturé et analysé des échanges ICMP Echo Request et Echo Reply, étudié l'encapsulation Ethernet/IPv4/ICMP, examiné les champs TTL et checksum, et observé le fonctionnement du protocole ARP.
+Les tests de connectivité ont confirmé la réception de quatre réponses ICMP sans perte de paquets. L'utilisation de traceroute a également permis de vérifier la communication directe entre les deux machines sur leur réseau virtuel.
+Ce laboratoire démontre des compétences pratiques en analyse de paquets, en compréhension des protocoles réseau et en diagnostic de connectivité avec Wireshark et les outils Windows.
