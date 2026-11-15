@@ -8,7 +8,7 @@ Hands-on, personally operated network analysis and defensive cybersecurity labor
 
 | Lab | Focus | Status | Documentation |
 |---|---|---|---|
-| 01 | ICMP Packet Analysis & Network Encapsulation | Network tests completed; public evidence review pending | [English](01-ICMP-Packet-Analysis/README.md) · [Français](01-ICMP-Packet-Analysis/README-FR.md) |
+| 01 | ICMP Packet Analysis & Network Encapsulation | Completed — network analysis documented | [English](01-ICMP-Packet-Analysis/README.md) · [Français](01-ICMP-Packet-Analysis/README-FR.md) |
 
 ## Lab 01 — Confirmed observations
 
