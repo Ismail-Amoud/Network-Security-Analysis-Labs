@@ -18,3 +18,8 @@
 **Explore:** [Technical report (EN)](01-ICMP-Packet-Analysis/report-en.md) · [Rapport technique (FR)](01-ICMP-Packet-Analysis/rapport-fr.md) · [Recorded observations](01-ICMP-Packet-Analysis/evidence/observations-en.md)
 
 All results are from a personal lab. The evidence folder contains field transcriptions based on actual captures; it does not represent raw packet capture files.
+
+
+## Plain-text evidence
+
+LAB 01 includes [sanitized English observations](01-ICMP-Packet-Analysis/evidence/icmp-analysis.txt) and [French observations](01-ICMP-Packet-Analysis/evidence/analyse-icmp.txt). These are transcripts of actual observed results, not exported logs, screenshots or PCAPs.
