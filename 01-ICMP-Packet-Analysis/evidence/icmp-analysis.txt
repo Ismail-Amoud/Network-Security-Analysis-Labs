@@ -1,0 +1,99 @@
+LAB 01 — ICMP Packet Analysis
+Observed results | Sanitized text transcription
+===============================================
+This is a manual transcription of values visible in the lab screenshots.
+It is NOT a raw packet capture, unmodified command output, or exported log.
+Actual IP and MAC addresses, interface GUIDs, hostnames and public addressing
+have been omitted. Placeholders are illustrative labels only.
+
+ENVIRONMENT
+-----------
+Source system: Windows 11 VM
+Destination system: Ubuntu VM
+Virtualization: Proxmox VE, shared virtual Ethernet bridge
+Network: same private IPv4 /24 subnet
+Capture: Wireshark 4.6.9 and Npcap
+
+WINDOWS PING
+------------
+Executed command (sanitized):
+  ping -4 -n 4 <UBUNTU_IP>
+
+Packets: sent=4, received=4, lost=0 (0% loss)
+Round-trip time (Windows display): min=0ms, max=8ms, avg=2ms
+
+WIRESHARK ICMP TRAFFIC
+----------------------
+Observed: 4 Echo Requests and 4 Echo Replies
+Example inspected Echo Request (first capture session):
+  Captured frame length:        74 bytes
+  Ethernet II header:          14 bytes
+  IPv4 header:                 20 bytes
+  IPv4 total length:           60 bytes
+  IPv4 protocol:               1 (ICMP)
+  IPv4 TTL:                    128
+  IPv4 header checksum:        0x0000 (validation disabled; unverified)
+  ICMP type/code:              8 / 0 (Echo Request)
+  ICMP checksum:               0x4d5a (Good)
+  ICMP identifier (BE):        1
+  ICMP sequence (BE):          1
+  ICMP data length:            32 bytes
+  Capture-local frame number:  15857
+  Corresponding reply in same capture: frame 15858
+
+Example inspected Echo Reply (different capture session):
+  IPv4 header length:          20 bytes
+  IPv4 total length:           60 bytes
+  IPv4 protocol:               1 (ICMP)
+  IPv4 TTL:                    64
+  IPv4 header checksum:        0x3a64 (validation disabled; unverified)
+  ICMP type/code:              0 / 0 (Echo Reply)
+  ICMP checksum:               0x555a (Good)
+  ICMP identifier (BE):        1
+  ICMP sequence (BE):          1
+  Matching request in this session: frame 144
+  Wireshark response time:     17.916 ms
+  ICMP data length:            32 bytes
+
+The two detailed examples above are from DIFFERENT capture sessions.
+They must not be described as one matched Echo Request / Echo Reply pair.
+The 17.916 ms Wireshark value does not belong to the earlier ping summary.
+
+ARP
+---
+Executed command:
+  arp -a
+
+Observed in the Windows ARP cache:
+  Dynamic IPv4-to-MAC mapping for the Ubuntu VM.
+Observed in Wireshark (display filter: arp):
+  ARP request looking up the Ubuntu VM's IPv4 address.
+  ARP reply mapping that IPv4 address to its interface MAC.
+Actual IPv4/MAC values omitted in this public transcription.
+
+TRACEROUTE
+----------
+Executed command (sanitized):
+  tracert -4 -d <UBUNTU_IP>
+
+Sanitized output (substituted destination, formatting retained):
+  Tracing route to <UBUNTU_IP> over a maximum of 30 hops
+
+  1    <1 ms    <1 ms    <1 ms    <UBUNTU_IP>
+
+  Trace complete.
+
+Interpretation: the destination was displayed at hop 1, consistent with
+direct communication over the shared virtual Ethernet segment.
+
+SCOPE
+-----
+* Successful local connectivity, ICMP packet inspection, ARP and traceroute
+  were observed and documented.
+* ICMP checksum values above were reported Good by Wireshark.
+* IPv4 header checksum verification was disabled; values are not validated.
+* Router TTL decrement across multiple hops was not experimentally captured.
+* The Windows VM was able to access the Internet, so complete network
+  isolation was not demonstrated.
+
+END OF SANITIZED TRANSCRIPTION
